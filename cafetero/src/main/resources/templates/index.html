@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!-- Ejemplo de menu: http://dtr-trading.blogspot.com.ar/2014/02/spring-mvc-4-bootstrap-navigation-and.html -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<!-- <meta charset='utf-8'></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta
+	content="width=device-width initial-scale=1.0 minimum-scale=1.0 maximum-scale=1.0 user-scalable=no"
+	name="viewport"></meta> -->
+
+<!-- bootstrap -->
+<!-- <link th:href="@{webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" /> -->
+
+<!-- MENU -->
+<link href="../static/css/jquery.mmenu.all.css"
+	th:href="@{/css/jquery.mmenu.all.css}" rel="stylesheet" media="screen" />
+	
+<!-- The actual JQuery code -->
+<script th:src="@{webjars/jquery/1.11.3/jquery.js}"></script>
+	
+<script src="../static/js/jquery.mmenu.all.min.js"
+	th:src="@{/js/jquery.mmenu.all.min.js}"></script>
+
+
+
+<script type="text/javascript">
+
+//variables
+var $menu = $("#menu");
+var $btnMenu = $(".btn-menu");
+var $img = $("img"); 
+
+//mmenu customization
+$menu.mmenu({
+counters: true,
+navbar: {
+ title: "Menu Content"
+},
+extensions: ["pageshadow", "effect-zoom-menu", "effect-zoom-panels"],
+offCanvas: {
+ position  : "right",
+ zposition : "back"
+}
+});
+
+//toggle menu
+var api = $menu.data("mmenu");
+
+$btnMenu.click(function() {
+api.open();
+});
+
+//callbacks
+api.bind("opening", function() {
+$img.attr("src", "https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrows_remove.svg");
+});
+
+api.bind("closing", function() {
+$img.attr("src", "https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrows_hamburger.svg");
+});
+
+//change toggle behavior for subpanels
+$menu.find( ".mm-next" ).addClass("mm-fullsubopen");
+</script>
+
+<style type="text/css">
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+$main-color: #e7f5fb;
+$text-color: #37474f;
+$highlight-color: #1976d2;
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Lato, sans-serif;
+}
+
+body {
+	background: $main-color;
+}
+
+header {
+	height: 70px;
+	line-height: 70px;
+	display: flex;
+}
+
+a {
+	text-decoration: none;
+	color: $text-color;
+}
+
+h1 {
+	flex-basis: 80px;
+	font-size: 1.5em;
+	margin-left: 30px;
+	margin-right: auto;
+}
+
+.btn-menu {
+	margin-right: 30px;
+}
+
+nav {
+  display: none;
+	text-transform: uppercase;
+  span {
+	  font-size: .8em;
+	  font-style: italic;
+	  position: absolute;
+	  bottom: 0;
+	  right: 10px;
+  }
+}
+
+.mm-listview > li.plugin {
+	border-color: transparent;
+  a  {
+    background: darken($main-color, 10%);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 50px auto 0;
+    width: 60%;
+    color: $text-color;
+    text-align: center;
+    padding: 40px 20px;
+    font-weight: bold;
+    font-size: 1.25em;
+    text-transform: lowercase;
+    transition: all .3s;
+  }
+}
+
+main {
+  display: block; /* IE */
+	padding: 50px 10%;
+}
+
+p {
+	line-height: 1.5;
+  font-size: 20px;
+  color: $text-color;
+  font-weight: 300;
+  text-align: justify;
+}
+
+p + p {
+	margin-top: 20px;
+}
+
+.history h3 {
+	margin-bottom: 50px;
+}
+
+.history > a {
+	float: right;
+  text-decoration: underline;
+	margin: 50px 0;
+	display: inline-block;
+}
+
+
+
+/* mmenu.js STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.mm-menu {
+	background: darken($main-color, 10%);
+  max-width: 350px;
+}
+
+.mm-listview > li > a {
+  color: $text-color;
+	padding: 20px;
+}
+
+.mm-listview > li > a:hover,
+.mm-listview .mm-next.mm-fullsubopen:hover + a {
+  color: $highlight-color;
+}
+
+.mm-listview > li > a:hover span {
+  color: $text-color;
+}
+
+.mm-menu .mm-listview > li.mm-selected > a:not(.mm-next) {
+	background: transparent url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrows_check.svg) no-repeat center right 10px;
+	background-size: 30px 30px;
+	text-decoration: line-through;
+}
+
+
+
+/* MQ STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+@media all and (min-width: 550px) {
+    html.mm-opening .mm-slideout {
+      transform: translate(350px, 0); 
+    } 
+  }
+
+@media all and (min-width: 550px) {
+  html.mm-right.mm-opening .mm-slideout {
+    transform: translate(-350px, 0);
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<div>
+  <header>
+    <h1><a href="#">Logo</a></h1>
+    <a href="#" class="btn-menu">
+      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrows_hamburger.svg"/>
+    </a>
+  </header>
+  <main>
+    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.</p>
+    <p>Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus</p>
+  </main>
+</div>
+
+<nav id="menu">
+  <ul>
+    <li>
+      <a href="#">About</a>
+      <ul>
+        <li><a href="http://s.codepen.io/tutsplus/debug/pjVPeN">History<span>Click me</span></a></li>
+        <li><a href="#">Vision</a></li>
+        <li><a href="#">Team</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Clients</a></li>
+    <li><a href="#">News</a></li>
+    <li>
+      <a href="#">Contact</a>
+      <ul>
+        <li>
+          <a href="#">Social Media</a>
+          <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Linkedin</a></li>
+            <li><a href="#">Twitter</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </li>
+    <li class="plugin"><a href="http://mmenu.frebsite.nl/" targey="_blank">mmenu.js</a></li>
+  </ul>
+</nav>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- jquery -->
+    <script th:src="@{webjars/jquery/1.11.3/jquery.js}"></script>
+    <!-- bootstrap -->
+    <link th:href="@{webjars/bootstrap/3.3.4/css/bootstrap.css}" rel="stylesheet" media="screen" />
+	<!-- table editable -->
+	<script src="../static/js/mindmup-editabletable.js" th:src="@{/js/mindmup-editabletable.js}"></script>
+	<script src="../static/js/numeric-input-example.js" th:src="@{/js/numeric-input-example.js}"></script>
+	
+	<script type="text/javascript">
+	$(document).ready( function () {
+		$('#detalleTable').editableTableWidget({ editor: $('<input/>'), preventColumns: [ 1 ] }).numericInputExample().find("td:first").focus();
+	  /* $("#detalleTable").editableTableWidget().numericInputExample().find("td:first").focus();
+	  $("#textAreaEditor").editableTableWidget({editor: $("<textarea></textarea>"), preventColumns: [ 1 ] }); */
+	})
+	</script>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+       <div class="page-header"><h4>Registrar Tostada</h4></div>
+    
+         <form class="form-horizontal" method="post" action='employee/add.htm' name="employeeForm" id="employeeForm">
+            <div class="form-group">
+		      <label for="fechaTostada" class="col-sm-2 control-label">Fecha</label>
+		      <div class="col-sm-2">
+		          <input type="date" name="fechaTostada" id="fechaTostada" value=""/>
+		      </div>
+		     </div>
+		    <div class="form-group">
+		        <div class="col-sm-10">
+		           <div class="table-responsive">
+				    <table id="detalleTable" class="table table-striped">
+				            <thead>
+				              <tr><th>Materia Prima</th><th>Cantidad(kg)</th></tr>
+				            </thead>
+				            <tbody>
+				              <tr>
+				                <td>Grano Café Burgol</td><td>100</td>
+				              </tr>
+				              <tr>
+				                <td>Grano Café Calidad I</td><td>100</td>
+				              </tr>   
+				              <tr>
+				                <td>Grano Café Calidad II</td><td>100</td>
+				              </tr>                         
+				                
+				            </tbody>
+							<tfoot><tr><th><strong>TOTAL</strong></th><th></th></tr></tfoot>
+				     </table>
+				   </div> 
+		        </div>
+			</div>	
+            <div class="form-group">
+		      <label for="totalNeto" class="col-sm-2 control-label">Total neto (10% merma)</label>
+		      <div class="col-sm-2">
+		          <input type="number" name="totalNeto" id="totalNeto" value=""/>
+		      </div>
+		     </div>	
+           <div class="form-group">
+		      <label for="productoFinal" class="col-sm-2 control-label">Producto Final</label>
+		      <div class="col-sm-2">
+		          <input type="text" name="productoFinal" id="productoFinal" value=""/>
+		      </div>
+		     </div>			     			  
+	
+		</form>
+	 	     
+     </div>
+	 </div>
+	 </div>
+</body>
+</html>
