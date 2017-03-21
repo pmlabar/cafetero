@@ -1,5 +1,6 @@
 package com.cafetero.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.OneToMany;
 
 
 @Entity
-public class Cliente {
+public class Cliente implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

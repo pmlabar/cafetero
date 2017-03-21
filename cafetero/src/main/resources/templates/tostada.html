@@ -14,13 +14,69 @@
 	
 	<script type="text/javascript">
 	$(document).ready( function () {
-		$('#detalleTable').editableTableWidget({ editor: $('<input/>'), preventColumns: [ 1 ] }).numericInputExample().find("td:first").focus();
+		$('#detalleTable').editableTableWidget({ editor: $('<input/>'), preventColumns: [ 1 ] }).
+		//numericInputExample().
+		find("td:first").focus();
 	  /* $("#detalleTable").editableTableWidget().numericInputExample().find("td:first").focus();
 	  $("#textAreaEditor").editableTableWidget({editor: $("<textarea></textarea>"), preventColumns: [ 1 ] }); */
-	})
+		/* $('#detalleTable').on('change', 'tbody td', function(evt, newValue) {
+			$('#detalleTable').numericInputExample();
+		}); */
+	});
+	</script>
+	<script type="text/javascript">
+	
+	function loadTiposCafeTostado(){
+		$.ajax({
+		    type: "get",
+		    url: "../listaTiposCafeTostado",
+		    cache: false,    
+		    dataType: "json",
+		    success: function(response){
+		          var dropdown = $('#idProducto');
+		          var option = new Option(" ", 0);
+		          $(option).html(" ");
+		          $('#idProducto').append(option);
+		          $.each(response, function(index) {
+		   					var option = $('<option/>');
+		   					option.attr({ 'value': response[index].idProducto }) 	
+		   						          .text(response[index].descripcion);
+		   					dropdown.append(option);
+		           });
+
+	         } ,
+	         error : function(response) {
+		           alert("error");
+		         } 
+	      });
+	  } 
+
+	function loadTiposGranoCrudo(){
+		$.ajax({
+		    type: "get",
+		    url: "../listaTiposCafeCrudo",
+		    cache: false,    
+		    dataType: "json",
+		    success: function(response){
+		    	var trHTML = '';
+		        $.each(response, function (i, item) {
+		            trHTML += '<tr><td tabindex="1">' + item.descripcion + '</td><td tabindex="1">0</td></tr>';
+		        });
+		        $('#detalleTable').append(trHTML);
+		        $('#detalleTable').numericInputExample();
+
+	         } ,
+	         error : function(response) {
+		           alert("error");
+		         } 
+	      });
+	  } 
+
+	
 	</script>
 </head>
-<body>
+<body onload="loadTiposCafeTostado();loadTiposGranoCrudo();"> 
+<!-- <body> -->
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
@@ -41,7 +97,7 @@
 				              <tr><th>Materia Prima</th><th>Cantidad(kg)</th></tr>
 				            </thead>
 				            <tbody>
-				              <tr>
+				              <!--  <tr>
 				                <td>Grano Café Burgol</td><td>100</td>
 				              </tr>
 				              <tr>
@@ -49,7 +105,7 @@
 				              </tr>   
 				              <tr>
 				                <td>Grano Café Calidad II</td><td>100</td>
-				              </tr>                         
+				              </tr>    -->                    
 				                
 				            </tbody>
 							<tfoot><tr><th><strong>TOTAL</strong></th><th></th></tr></tfoot>
@@ -64,9 +120,10 @@
 		      </div>
 		     </div>	
            <div class="form-group">
-		      <label for="productoFinal" class="col-sm-2 control-label">Producto Final</label>
+		      <label for="idProducto" class="col-sm-2 control-label">Producto Final</label>
 		      <div class="col-sm-2">
-		          <input type="text" name="productoFinal" id="productoFinal" value=""/>
+		          <select th:value="${idProducto}" 
+		            th:selected="${idProducto}" th:id="idProducto" th:name="idProducto"></select>
 		      </div>
 		     </div>			     			  
 	

@@ -1,5 +1,7 @@
 package com.cafetero.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.hibernate.annotations.*;
 @Entity
-public class Stock {
+public class Stock implements Serializable {
 
 	@Id
 	@Column(name="idProducto", unique=true, nullable=false)

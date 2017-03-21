@@ -1,12 +1,13 @@
 package com.cafetero.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-public class Tostada {
+public class Tostada implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -1,12 +1,14 @@
 package com.cafetero.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-public class DetalleCompra {
+public class DetalleCompra implements Serializable {
 	
 	@Id
 	@GeneratedValue(generator="gen")
