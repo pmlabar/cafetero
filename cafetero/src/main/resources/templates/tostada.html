@@ -14,14 +14,13 @@
 	
 	<script type="text/javascript">
 	$(document).ready( function () {
-		$('#detalleTable').editableTableWidget({ editor: $('<input/>'), preventColumns: [ 1 ] }).
+		$('#detalleTable').editableTableWidget({ editor: $('<input/>'), preventColumns: [ 1, 2 ] }).
 		//numericInputExample().
 		find("td:first").focus();
-	  /* $("#detalleTable").editableTableWidget().numericInputExample().find("td:first").focus();
-	  $("#textAreaEditor").editableTableWidget({editor: $("<textarea></textarea>"), preventColumns: [ 1 ] }); */
-		/* $('#detalleTable').on('change', 'tbody td', function(evt, newValue) {
-			$('#detalleTable').numericInputExample();
-		}); */
+		
+		$( "#registrarTostada" ).click(function() {
+			registrarNuevaTostada();
+		});
 	});
 	</script>
 	<script type="text/javascript">
@@ -60,10 +59,94 @@
 		    success: function(response){
 		    	var trHTML = '';
 		        $.each(response, function (i, item) {
-		            trHTML += '<tr><td tabindex="1">' + item.descripcion + '</td><td tabindex="1">0</td></tr>';
+		            trHTML += '<tr><td tabindex="1">' + item.idProducto + '</td><td tabindex="1">' + item.descripcion + '</td><td tabindex="1">0</td></tr>';
 		        });
 		        $('#detalleTable').append(trHTML);
 		        $('#detalleTable').numericInputExample();
+
+	         } ,
+	         error : function(response) {
+		           alert("error");
+		         } 
+	      });
+	  } 
+    function getListaCrudos(){
+    	/* var arrData=[];
+    	   $("#detalleTable tr").each(function(){
+    	        var currentRow=$(this);
+    	    
+    	        var col1_value=currentRow.find("td:eq(0)").text();
+    	        var col2_value=currentRow.find("td:eq(1)").text();
+    	        var col3_value=currentRow.find("td:eq(2)").text();
+
+    	         var obj=[];
+    	        obj[0] = col1_value;
+    	        obj[1] =col2_value;
+    	        obj[2]=col3_value;
+
+    	        arrData.push(obj);
+    	   });
+    	    alert(arrData);
+    	    console.log(arrData); */
+    	    /* var value = $('#detalleTable tr:has(td)').map(function(i, v) {
+    	        var $td =  $('td', this);
+    	            return {
+    	                     idProducto: $td.eq(0).text(),
+    	                     descripcion: $td.eq(1).text(),
+    	                     cantidad: $td.eq(2).text()               
+    	                   }
+    	    }).get();	    
+       return value; */
+       
+    	var i, items, item, dataItem, data = [];
+    	var cols = [ "idProducto", "descripcion", "cantidad"];
+
+    	$("#detalleTable tr").each(function() {
+    	    items = $(this).children('td');
+
+    	    if(items.length === 0) { // return if this tr only contains th
+    	        return;
+    	    }
+
+    	    dataItem = {};
+    	    for(i = 0; cols.length > i ; i+=1) {
+    	        item = items.eq(i);
+    	        if(item) {
+    	            dataItem[cols[i]] = item.html();
+    	        }
+    	    }
+    	    data.push(dataItem);
+    	});
+    	return data;
+    }
+	function registrarNuevaTostada(){
+		var totalNet = $('#totalNeto').val();
+		var fechaTost = $('#fechaTostada').val();
+		var idProd = $('#idProducto').val();
+		lista = getListaCrudos() 
+		var listaCrudos = JSON.stringify({
+
+            'listaCrudos' : lista
+		}
+        );
+		console.log(lista);
+		$.ajax({
+			contentType: 'application/json', 
+		    type: "POST",
+		    url: "../altaTostada",
+		    data: {
+		    	/* fechaTostada :  fechaTost,
+		    	totalNeto: totalNet,
+		    	idProducto: idProd, */ 
+		    	"listaCrudos" : JSON.stringify(lista)
+		    	/* listaCrudos: listaCrudos  */
+		    	/*listaCrudos: JSON.stringify(lista) */
+		    },
+		    traditional: true,
+		    cache: false,    
+		    dataType: "json",
+		    success: function(response){
+		          alert("ok");
 
 	         } ,
 	         error : function(response) {
@@ -82,7 +165,7 @@
     <div class="col-sm-12">
        <div class="page-header"><h4>Registrar Tostada</h4></div>
     
-         <form class="form-horizontal" method="post" action='employee/add.htm' name="employeeForm" id="employeeForm">
+         <form class="form-horizontal" >
             <div class="form-group">
 		      <label for="fechaTostada" class="col-sm-2 control-label">Fecha</label>
 		      <div class="col-sm-2">
@@ -94,7 +177,7 @@
 		           <div class="table-responsive">
 				    <table id="detalleTable" class="table table-striped">
 				            <thead>
-				              <tr><th>Materia Prima</th><th>Cantidad(kg)</th></tr>
+				              <tr><th>Cód.</th><th>Materia Prima</th><th>Cantidad(kg)</th></tr>
 				            </thead>
 				            <tbody>
 				              <!--  <tr>
@@ -108,7 +191,7 @@
 				              </tr>    -->                    
 				                
 				            </tbody>
-							<tfoot><tr><th><strong>TOTAL</strong></th><th></th></tr></tfoot>
+							<tfoot><tr><th><strong>TOTAL</strong></th><th></th><th></th></tr></tfoot>
 				     </table>
 				   </div> 
 		        </div>
@@ -125,10 +208,15 @@
 		          <select th:value="${idProducto}" 
 		            th:selected="${idProducto}" th:id="idProducto" th:name="idProducto"></select>
 		      </div>
-		     </div>			     			  
+		     </div>	
+			<div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			      
+			    </div>
+			  </div>		     		     			  
 	
 		</form>
-	 	     
+	 	     <button id="registrarTostada" class="btn btn-default">Registrar Tostada</button>
      </div>
 	 </div>
 	 </div>
