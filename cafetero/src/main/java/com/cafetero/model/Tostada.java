@@ -15,7 +15,7 @@ public class Tostada implements Serializable{
 	
 	private Date fechaTostada;
 	
-	@OneToMany(fetch= FetchType.LAZY)
+	@OneToMany(fetch= FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="idTostada")
 	private List<DetalleTostada> detalleTostada;
 	

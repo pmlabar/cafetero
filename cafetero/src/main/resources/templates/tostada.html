@@ -8,10 +8,13 @@
     <script th:src="@{webjars/jquery/1.11.3/jquery.js}"></script>
     <!-- bootstrap -->
     <link th:href="@{webjars/bootstrap/3.3.4/css/bootstrap.css}" rel="stylesheet" media="screen" />
+    <script th:src="@{webjars/bootstrap/3.3.4/js/modal.js}"></script>
 	<!-- table editable -->
 	<script src="../static/js/mindmup-editabletable.js" th:src="@{/js/mindmup-editabletable.js}"></script>
 	<script src="../static/js/numeric-input-example.js" th:src="@{/js/numeric-input-example.js}"></script>
-	
+	<!-- JQuery ui -->
+    <script th:src="@{webjars/jquery-ui/1.11.4/jquery-ui.js}"></script> 
+    
 	<script type="text/javascript">
 	$(document).ready( function () {
 		$('#detalleTable').editableTableWidget({ editor: $('<input/>'), preventColumns: [ 1, 2 ] }).
@@ -124,29 +127,29 @@
 		var fechaTost = $('#fechaTostada').val();
 		var idProd = $('#idProducto').val();
 		lista = getListaCrudos() 
-		var listaCrudos = JSON.stringify({
+		/* var listaCrudos = JSON.stringify({
 
             'listaCrudos' : lista
 		}
-        );
-		console.log(lista);
+        ); */
+		//console.log(lista);
 		$.ajax({
-			contentType: 'application/json', 
+			//contentType: 'application/json', 
 		    type: "POST",
 		    url: "../altaTostada",
 		    data: {
-		    	/* fechaTostada :  fechaTost,
+		    	fechaTostada :  fechaTost,
 		    	totalNeto: totalNet,
-		    	idProducto: idProd, */ 
+		    	idProducto: idProd,  
 		    	"listaCrudos" : JSON.stringify(lista)
 		    	/* listaCrudos: listaCrudos  */
 		    	/*listaCrudos: JSON.stringify(lista) */
 		    },
-		    traditional: true,
+		    /* traditional: true,
 		    cache: false,    
-		    dataType: "json",
+		    dataType: "json", */
 		    success: function(response){
-		          alert("ok");
+		    	$("#myModal").modal('show');
 
 	         } ,
 	         error : function(response) {
@@ -220,5 +223,25 @@
      </div>
 	 </div>
 	 </div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div> -->
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>Tostada registrada con éxito!</p>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-primary">Save changes</button> 
+      </div> -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
+
 </body>
 </html>
